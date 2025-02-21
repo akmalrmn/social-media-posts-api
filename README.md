@@ -66,3 +66,7 @@ The API documentation is available at http://localhost:3000/api once the applica
 * PostgreSQL: Relational database management system
 * Docker: Containerization platform
 * Swagger: API documentation
+
+## Future Improvements 🦝
+1. Create automated testing such as e2e testing and integration testing.
+2. Fix the JWT Strategy, because somehow the validate method didn't work so it returning the user's hash upon sign-up.
