@@ -11,6 +11,6 @@ export const GetUser = createParamDecorator(
     const request: Express.Request = ctx
       .switchToHttp()
       .getRequest();
-    return request.user;
+    return data ? request.user?.[data] : request.user;
   },
 );
