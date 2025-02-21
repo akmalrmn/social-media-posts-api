@@ -7,6 +7,8 @@ export class ItemService {
   constructor(private prisma: PrismaService) {}
 
   getPost(userId: number) {
+    console.log(userId);
+    console.log("User ID Type:", typeof userId);
     return this.prisma.item.findMany({
       where: {
         userId,
@@ -14,13 +16,19 @@ export class ItemService {
     })
   }
     
-  getPostById(userId: number, itemId: number) {
-    return this.prisma.item.findFirst({
+  async getPostById(userId: number, itemId: number) {
+    const post = await this.prisma.item.findFirst({
       where: {
         userId,
         id: itemId,
       }
-    })
+    });
+
+    if (!post) {
+      throw new ForbiddenException('Post not found');
+    }
+
+    return post;
   }
 
   async createPost(userId: number, dto: CreateItemDto) {
@@ -56,8 +64,19 @@ export class ItemService {
     })
   }
 
-  deletePostById(userId: number, itemId: number) {
-    return this.prisma.item.delete({
+  async deletePostById(userId: number, itemId: number) {
+    const post = await this.prisma.item.findFirst({
+      where: {
+        userId,
+        id: itemId,
+      }
+    })
+
+    if (!post) {
+      throw new ForbiddenException('Access to resources denied');
+    }
+
+    return await this.prisma.item.delete({
       where: {
         userId,
         id: itemId,
