@@ -7,9 +7,9 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private prisma: PrismaService) {
     const JwtSecret = process.env.JWT_SECRET;
-    if (!JwtSecret) {
-      throw new Error('JWT_SECRET is not defined');
-    }
+
+    if (!JwtSecret) throw new Error('JWT_SECRET is not defined');
+    
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: JwtSecret,
@@ -23,12 +23,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       },
     });
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+    if (!user) throw new Error('User not found');
 
-    delete (user as any).hash;
-
-    return user;
+    const { hash, ...userWithoutHash } = user;
+    return userWithoutHash;
   }
 }
