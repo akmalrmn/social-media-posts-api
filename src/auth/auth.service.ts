@@ -37,6 +37,8 @@ export class AuthService {
         }
       })
       
+      delete (user as any).hash;
+
       return user;
     }
     catch (error) {

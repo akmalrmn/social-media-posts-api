@@ -69,4 +69,3 @@ The API documentation is available at http://localhost:3000/api once the applica
 
 ## Future Improvements 🦝
 1. Create automated testing such as e2e testing and integration testing.
-2. Fix the JWT Strategy, because somehow the validate method didn't work so it returning the user's hash upon sign-up.
